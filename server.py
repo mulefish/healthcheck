@@ -13,14 +13,18 @@ async def fetch(session, url):
         return await response.text()
 
 async def setToken(request):
+    print("setToken! ")
     rightNow = int(time.time())
     getNew = False
     if tokenHolder['when'] == None:
         # New it up!
+        print("setToken! A ")
+
         getNew = True
     elif (rightNow - tokenHolder['when']) > 5.0:
         # Get a new one!
         getNew = True
+        print("setToken! B  ")
 
     if getNew == True:
         async with aiohttp.ClientSession() as session:
@@ -29,9 +33,12 @@ async def setToken(request):
             tokenHolder['token'] = token
             print("Get a new value  {}".format(tokenHolder ))
     else:
+        print("setToken! C ")
         print("Use the old one {}".format(tokenHolder ))
 
 async def exec(request):
+    await setToken(request)
+    print("exec and the token is {}".format( tokenHolder))
     msg = 'zoom hello world and {} when {}'.format(tokenHolder['token'], tokenHolder['when'])
     return web.Response(text=msg)
 
