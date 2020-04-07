@@ -8,8 +8,21 @@ app = Flask(__name__)
 def about():
     result = {}
     result['msg'] = "This is a dummy server to mimick a bunch of endpoints"
-    result['endpoints'] = ['postgres', 'mongo', 'endpoint1','endpoint2','endpoint3']
+    result['endpoints'] = ['postgres', 'mongo', 'endpoint1','endpoint2','endpoint3', 'jwttoken']
     return jsonify(result)
+
+alphanumeric = 'abcdefghijklmnopqrstuvwxyz0123456789'
+
+@app.route('/jwttoken')
+def jwttoken(): 
+    global alphanumeric
+    ary = alphanumeric.split("")
+    token = ""
+    for i in range(50):
+        token += ary[i]
+    return token
+
+
 
 @app.route('/postgres')
 def postgres(): 
