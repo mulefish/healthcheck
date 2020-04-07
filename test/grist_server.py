@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import jsonify
-
+import random
 app = Flask(__name__)
 
 @app.route('/')
@@ -11,18 +11,15 @@ def about():
     result['endpoints'] = ['postgres', 'mongo', 'endpoint1','endpoint2','endpoint3', 'jwttoken']
     return jsonify(result)
 
-alphanumeric = 'abcdefghijklmnopqrstuvwxyz0123456789'
+alphanumeric = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"]
 
 @app.route('/jwttoken')
 def jwttoken(): 
     global alphanumeric
-    ary = alphanumeric.split("")
     token = ""
     for i in range(50):
-        token += ary[i]
+        token += random.choice(alphanumeric)
     return token
-
-
 
 @app.route('/postgres')
 def postgres(): 
