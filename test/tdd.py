@@ -1,10 +1,22 @@
-import time
+import json
 
-def timething():
-    t = time.time()
-    print("hello worrld {}".format(t))    
-    print(time.localtime( time.time() )) 
-    # print(time.asctime( time.localtime(time.time()) )
-    
+def read_config_test():
+    expected = ["PostGresService","MongoService","Endpoint1","Endpoint2","Endpoint3"]
+    actual = []
+    path = "../config.json"
+    with open(path) as f:
+        data = json.load(f)
+        for entry in data:
+            actual.append(entry['service'])
+    isOk = True
+    for item in expected:
+        if not item in actual:
+            isOk = False
+    if isOk == True:
+        print("PASS reading the config from {}".format(path))
+    else:
+        print("FAIL reading the config from {}".format(path))
+
+
 if __name__ == '__main__':
-    timething()
+    read_config_test()

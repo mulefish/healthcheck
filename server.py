@@ -18,8 +18,6 @@ async def setToken(request):
     getNew = False
     if tokenHolder['when'] == None:
         # New it up!
-        print("setToken! A ")
-
         getNew = True
     elif (rightNow - tokenHolder['when']) > 5.0:
         # Get a new one!
