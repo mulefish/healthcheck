@@ -1,55 +1,80 @@
-from aiohttp import web
-import aiohttp
-import asyncio
+from flask import Flask
+from flask import render_template
+from flask import jsonify
+import json
+from flask_cors import CORS
 
-import time
+import random
+# app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+CORS(app)
+endpoints = {}
 
-tokenHolder = {}
-tokenHolder['token'] = None
-tokenHolder['when'] = None
+# @app.route('/page')
+# def index():
+#     message = "Hello, World"
+#     print("This is the apge ")
+#     return render_template('index.html', message=message)
 
-async def fetch(session, url):
-    async with session.get(url) as response:
-        return await response.text()
 
-async def setToken(request):
-    print("setToken! ")
-    rightNow = int(time.time())
-    getNew = False
-    if tokenHolder['when'] == None:
-        # New it up!
-        getNew = True
-    elif (rightNow - tokenHolder['when']) > 5.0:
-        # Get a new one!
-        getNew = True
-        print("setToken! B  ")
 
-    if getNew == True:
-        async with aiohttp.ClientSession() as session:
-            token = await fetch(session, 'http://localhost:5000/jwttoken')
-            tokenHolder['when'] = rightNow
-            tokenHolder['token'] = token
-            print("Get a new value  {}".format(tokenHolder ))
-    else:
-        print("setToken! C ")
-        print("Use the old one {}".format(tokenHolder ))
 
-async def exec(request):
-    await setToken(request)
-    print("exec and the token is {}".format( tokenHolder))
-    msg = 'zoom hello world and {} when {}'.format(tokenHolder['token'], tokenHolder['when'])
-    return web.Response(text=msg)
+@app.route('/')
+def index():
+    print("this is index  ")
+    return app.send_static_file('index.html')
 
-async def handle(request):
-    name = request.match_info.get('name', "Anonymous")
-    text = "Hello, " + name
-    return web.Response(text=text)
 
-app = web.Application()
-app.on_startup.append(setToken)
-app.add_routes([web.get('/exec', exec), 
-                web.get('/', handle),
-                web.get('/{name}', handle)])
+# @app.route('/')
+# def about():
+#     result = {}
+#     result['msg'] = "This is a dummy server to mimick a bunch of endpoints"
+#     result['endpoints'] = ['postgres', 'mongo', 'endpoint1','endpoint2','endpoint3', 'jwttoken']
+#     return jsonify(result)
+
+alphanumeric = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9"]
+ 
+@app.route('/jwttoken')
+def jwttoken(): 
+    global alphanumeric
+    token = ""
+    for i in range(50):
+        token += random.choice(alphanumeric)
+    return token
+
+@app.route('/getEndpoints')
+def getEndpoints():
+    return jsonify(endpoints)
+
+
+# @app.route('/postgres')
+# def postgres(): 
+#     return "Ok"
+
+# @app.route('/mongo')
+# def mongo(): 
+#     return "Ok"
+
+# @app.route('/endpoint1')
+# def endpoint1(): 
+#     return "Ok"
+
+# @app.route('/endpoint2')
+# def endpoint2(): 
+#     return "Ok"
+
+# @app.route('/endpoint3')
+# def endpoint3(): 
+#     return "Ok"
 
 if __name__ == '__main__':
-    web.run_app(app)
+    endpoints = {}
+    path = "config.json"
+    with open(path) as f:
+        endpoints = json.load(f)
+        
+
+
+
+
+    app.run(host='0.0.0.0', port=8080)
