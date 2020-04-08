@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <script src="logic.js" ></script>
+    <link rel="stylesheet" href="style.css">
+    <title>HealthCheck</title>
+  </head>
+
+  <body>
+
+    <button onclick='doit()'>doit</button>
+    <script>
+      function doit() { 
+
+
+        const url = 'http://localhost:8080/getEndpoints'
+        send(url).then(data => {
+          alert("data one " + data )
+      }) 
+
+
+      const url2 = 'http://localhost:5000/'
+        send(url).then(data => {
+          alert("datatwo  " + data )
+      }) 
+
+
+
+      }
+    
+    </script>
+    <div id='content'>
+      <!-- Faux React -->
+     
+
+    </div>
+  <script>
+    const GOOD = 'good' // css class names 
+    const BAD = 'bad' // css class names 
+    function checkthis(url, id) { 
+    const t1 = new Date().getTime()      
+    send_and_expect_text(url).then(result => {
+          console.log( result )
+          const delta = new Date().getTime() - t1     
+          document.getElementById(id).innerHTML = delta
+          document.getElementById(id).classList.add(GOOD)
+
+        })
+
+    }
+      function buildUI() { 
+        const url = 'http://localhost:8080/getEndpoints'
+        send_and_expect_json(url).then(data => {
+              let lastService  = ""         
+              let table = "<table border='1'>"
+                table += "<tr><th>Action</th><th>MS</th><th>Endpoint</th></tr>"
+                let i = 0 ;
+                data.forEach((entry) => {
+                  const service = entry['service']
+                  const urls = entry['urls']
+                  urls.forEach((url)=>{
+                    i += 1
+                    const id = "id" + i
+                    const button = `<td><button onclick='checkthis("${url}","${id}");'>${service}</button></td>` 
+                    const result = `<td id='${id}'></td>`
+                    const theurl = "<td>" + url + "</td>"
+                    const tr = "<tr>" + button + result + theurl + "</tr>"
+
+                    table += tr
+                  })
+
+                })
+                table += "</table>"
+                document.getElementById("content").innerHTML = table
+        }); 
+    }
+    buildUI()
+  </script>
+  </body>
+</html>

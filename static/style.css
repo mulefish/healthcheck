@@ -1,0 +1,12 @@
+#content {
+    margin-top:50px;
+    margin-left:100px;   
+}
+.good {
+    background-color: #00ff00;
+}
+
+.bad {
+    background-color: #ff0000;
+
+}
