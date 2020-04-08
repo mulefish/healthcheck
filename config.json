@@ -1,22 +1,22 @@
 [
     {
         "service":"PostGresService",
-        "urls":["locahost:5000/postgres"]
+        "urls":["http://localhost:5000/postgres"]
     },
     {
         "service":"MongoService",
-        "urls":["locahost:5000/mongo"]
+        "urls":["http://localhost:5000/mongo"]
     },
     {
         "service":"Endpoint1",
-        "urls":["locahost:5000/endpoint1"]
+        "urls":["http://localhost:5000/endpoint3"]
     },
     {
         "service":"Endpoint2",
-        "urls":["locahost:5000/endpoint2"]
+        "urls":["http://localhost:5000/endpoint3"]
     },
     {
         "service":"Endpoint3",
-        "urls":["locahost:5000/endpoint3"]
+        "urls":["http://localhost:5000/endpoint3"]
     }
 ]
