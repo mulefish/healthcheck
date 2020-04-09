@@ -1,0 +1,22 @@
+[
+    {
+        "service":"PostGresService",
+        "urls":["abc/postgres"]
+    },
+    {
+        "service":"MongoService",
+        "urls":["abc/mongo"]
+    },
+    {
+        "service":"Endpoint1",
+        "urls":["abc/endpoint3"]
+    },
+    {
+        "service":"Endpoint2",
+        "urls":["abc/endpoint3"]
+    },
+    {
+        "service":"Endpoint3",
+        "urls":["abc/endpoint3"]
+    }
+]

@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import jsonify
+from flask import request
 import json
 from flask_cors import CORS
 
@@ -9,6 +10,7 @@ import random
 app = Flask(__name__, static_url_path='')
 CORS(app)
 endpoints = {}
+trampolineEndpoints = {}
 
 # @app.route('/page')
 # def index():
@@ -46,26 +48,15 @@ def jwttoken():
 def getEndpoints():
     return jsonify(endpoints)
 
+@app.route('/getTrampolineEndpoints')
+def getTrampolineEndpoints():
+    return jsonify(trampolineEndpoints)
 
-# @app.route('/postgres')
-# def postgres(): 
-#     return "Ok"
-
-# @app.route('/mongo')
-# def mongo(): 
-#     return "Ok"
-
-# @app.route('/endpoint1')
-# def endpoint1(): 
-#     return "Ok"
-
-# @app.route('/endpoint2')
-# def endpoint2(): 
-#     return "Ok"
-
-# @app.route('/endpoint3')
-# def endpoint3(): 
-#     return "Ok"
+@app.route('/trampoline', methods=['POST'])
+def form_example():
+    content = request.json
+    print(content) 
+    return jsonify({"hello":"world"})
 
 if __name__ == '__main__':
     endpoints = {}
@@ -73,6 +64,12 @@ if __name__ == '__main__':
     with open(path) as f:
         endpoints = json.load(f)
         
+    trampolineEndpoints = {}
+    path2 = "config2.json"
+    with open(path2) as f:
+        trampolineEndpoints = json.load(f)
+        
+
 
 
 
