@@ -34,7 +34,7 @@ def trampoline_test():
 if __name__ == '__main__':
         
     trampolineEndpoints = {}
-    path2 = "config2.json"
+    path2 = "config.json"
     with open(path2) as f:
         trampolineEndpoints = json.load(f)
 
