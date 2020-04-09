@@ -4,7 +4,7 @@ from flask import jsonify
 from flask import request
 import json
 from flask_cors import CORS
-
+import requests
 import random
 # app = Flask(__name__)
 app = Flask(__name__, static_url_path='')
@@ -53,10 +53,20 @@ def getTrampolineEndpoints():
     return jsonify(trampolineEndpoints)
 
 @app.route('/trampoline', methods=['POST'])
-def form_example():
+def trampoline():
     content = request.json
-    print(content) 
-    return jsonify({"hello":"world"})
+    # print(content) 
+    # return jsonify({"hello":"world"})
+
+    # Make sure the test/grist_server.py is running! 
+    url = "http://localhost:5000/endpoint3"
+    headers = {
+    }
+    response = requests.request("GET", url, headers=headers)
+    result = response.text
+    return jsonify({"result":result})
+
+
 
 if __name__ == '__main__':
     endpoints = {}

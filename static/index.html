@@ -26,12 +26,13 @@ function checkthis(url, id) {
 
 }
 /////////
-function trampoline(url, id) {
+function trampoline_json(url, id) {
   let opts = {
 	"name":"Andy",
 	"email":"andy@example.com"
-	
 }
+const t1 = new Date().getTime()
+
   fetch('http://localhost:8080/trampoline', {
     method: 'post',
     body: JSON.stringify(opts)
@@ -39,12 +40,21 @@ function trampoline(url, id) {
     return response.json();
   }).then(function(data) {
  
-alert(data)
+//    alert(data['result'])
  
+const delta = new Date().getTime() - t1
+        document.getElementById(id).innerHTML = delta
+        document.getElementById(id).classList.add(GOOD)
+console.log( data, url, id )
+
   });
 
 
 }
+
+
+
+
 
 
 /////////// 
@@ -88,8 +98,8 @@ function buildTrampoline() {
             const urls = entry['urls']
             urls.forEach((url) => {
                 i += 1
-                const id = "id" + i
-                const button = `<td><button onclick='trampoline("${url}","${id}");'>${service}</button></td>`
+                const id = "tid" + i
+                const button = `<td><button onclick='trampoline_json("${url}","${id}");'>${service}</button></td>`
                 const result = `<td id='${id}'></td>`
                 const theurl = "<td>" + url + "</td>"
                 const tr = "<tr>" + button + result + theurl + "</tr>"
