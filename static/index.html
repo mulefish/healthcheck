@@ -6,85 +6,29 @@
   </head>
 
   <body>
-
-
-    <div class='content' id='content'></div>
-    <hr>
     <div id='trampoline' ></div>
-  <script>
+<script>
 const GOOD = 'good' // css class names 
 const BAD = 'bad' // css class names 
-function checkthis(url, id) {
-    const t1 = new Date().getTime()
-    send_and_expect_text(url).then(result => {
-        console.log(result)
-        const delta = new Date().getTime() - t1
-        document.getElementById(id).innerHTML = delta
-        document.getElementById(id).classList.add(GOOD)
 
-    })
-
-}
-/////////
 function trampoline_json(url, id) {
   let opts = {
-	"name":"Andy",
-	"email":"andy@example.com"
-}
-const t1 = new Date().getTime()
-
+	  "name":"Andy",
+	  "email":"andy@example.com"
+  }
+  const t1 = new Date().getTime()
   fetch('http://localhost:8080/trampoline', {
     method: 'post',
     body: JSON.stringify(opts)
   }).then(function(response) {
     return response.json();
   }).then(function(data) {
- 
-//    alert(data['result'])
- 
-const delta = new Date().getTime() - t1
-        document.getElementById(id).innerHTML = delta
-        document.getElementById(id).classList.add(GOOD)
-console.log( data, url, id )
-
+    const delta = new Date().getTime() - t1
+    document.getElementById(id).innerHTML = delta
+    document.getElementById(id).classList.add(GOOD)
+    console.log( data, url, id )
   });
-
-
 }
-
-
-
-
-
-
-/////////// 
-
-function buildUI() {
-    const url = 'http://localhost:8080/getEndpoints'
-    send_and_expect_json(url).then(data => {
-        console.log(data)
-        let table = "<table border='1'>"
-        table += "<tr><th>Action</th><th>MS</th><th>Endpoint</th></tr>"
-        let i = 0;
-        data.forEach((entry) => {
-            const service = entry['service']
-            const urls = entry['urls']
-            urls.forEach((url) => {
-                i += 1
-                const id = "id" + i
-                const button = `<td><button onclick='checkthis("${url}","${id}");'>${service}</button></td>`
-                const result = `<td id='${id}'></td>`
-                const theurl = "<td>" + url + "</td>"
-                const tr = "<tr>" + button + result + theurl + "</tr>"
-
-                table += tr
-            })
-        })
-        table += "</table>"
-        document.getElementById("content").innerHTML = table
-    });
-}
-
 
 function buildTrampoline() {
     const url = 'http://localhost:8080/getTrampolineEndpoints'
@@ -111,7 +55,6 @@ function buildTrampoline() {
         document.getElementById("trampoline").innerHTML = table
     });
 }
-buildUI()
 buildTrampoline()
   </script>
   </body>
