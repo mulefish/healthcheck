@@ -17,7 +17,7 @@ function trampoline_json(url, id) {
 	  "email":"andy@example.com"
   }
   const t1 = new Date().getTime()
-  fetch('http://localhost:8080/trampoline', {
+  fetch('http://localhost:8080/trampoline_test', {
     method: 'post',
     body: JSON.stringify(opts)
   }).then(function(response) {
