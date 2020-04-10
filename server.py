@@ -23,7 +23,29 @@ def getTrampolineEndpoints():
 @app.route('/trampoline_test', methods=['POST'])
 def trampoline_test():
     # This test needs test/grist_server.py to be running! 
-    content = request.json
+    
+    data = request.data
+    print("content ")
+    print(data)
+
+    my_json = data.decode('utf8').replace("'", '"')
+    # print(request.json())
+    print("...")
+    print(request.json)
+    print("...")
+    req_data = request.get_json(force=True)
+    url = req_data['url']
+    print(url)
+
+
+    #my_var = json.decode(data)
+    #AttributeError: module 'json' has no attribute 'decode'
+    #print("my_var")
+    #print(my_var)
+
+    
+
+    print("whwat |{}|".format(req_data))
     url = "http://localhost:5000/endpoint3"
     headers = {
     }
